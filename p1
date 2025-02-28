@@ -1,0 +1,53 @@
+import random
+import string
+
+# Predefined lists of adjectives and nouns
+adjectives = ["Cool", "Happy", "Fast", "Smart", "Brave", "Clever", "Epic", "Funky"]
+nouns = ["Tiger", "Dragon", "Panda", "Phoenix", "Wizard", "Knight", "Shadow", "Ninja"]
+
+def generate_username(include_numbers=True, include_special_chars=True, length=8):
+    """Generates a random username based on user preferences."""
+    adj = random.choice(adjectives)
+    noun = random.choice(nouns)
+    username = adj + noun
+    
+    if include_numbers:
+        username += str(random.randint(10, 99))  # Adding a random two-digit number
+    
+    if include_special_chars:
+        special_chars = "!@#$%^&*"
+        username += random.choice(special_chars)  # Adding a random special character
+    
+    return username[:length]  # Ensure the username does not exceed the desired length
+
+def save_username_to_file(username, filename="usernames.txt"):
+    """Saves the generated username to a text file."""
+    with open(filename, "a") as file:
+        file.write(username + "\n")
+
+def main():
+    print("Welcome to the Random Username Generator!")
+    include_numbers = input("Include numbers? (y/n): ").strip().lower() == 'y'
+    include_special_chars = input("Include special characters? (y/n): ").strip().lower() == 'y'
+    
+    try:
+        length = int(input("Enter the maximum username length (min 6, max 15): "))
+        if length < 6 or length > 15:
+            print("Invalid length! Using default length of 8.")
+            length = 8
+    except ValueError:
+        print("Invalid input! Using default length of 8.")
+        length = 8
+    
+    username = generate_username(include_numbers, include_special_chars, length)
+    print(f"Generated Username: {username}")
+    
+    save_choice = input("Save username to file? (y/n): ").strip().lower()
+    if save_choice == 'y':
+        save_username_to_file(username)
+        print("Username saved successfully!")
+    else:
+        print("Username not saved.")
+
+if __name__ == "__main__":
+    main()
