@@ -1,0 +1,61 @@
+import re  # Import the regular expression module
+
+def count_words(text):
+    """
+    Function to count the number of words in the given text.
+    Words are sequences of alphanumeric characters, ignoring punctuation marks.
+    """
+    # Use regex to match sequences of alphanumeric characters as words
+    words = re.findall(r'\b\w+\b', text)
+    return len(words)
+
+def clean_input(text):
+    """
+    Function to clean up input text, removing leading/trailing whitespaces and ensuring non-empty input.
+    """
+    # Strip any leading or trailing spaces and check if the input is empty
+    text = text.strip()
+    if not text:
+        return None
+    return text
+
+def main():
+    """
+    Main function to drive the Word Counter program.
+    It takes user input, processes it, counts the words, and displays the result.
+    """
+    print("Welcome to the Word Counter Program!")
+    print("This program will count the words in your input text.")
+    print("A word is defined as any sequence of characters separated by spaces (ignoring punctuation).")
+
+    # Take user input
+    user_input = input("\nPlease enter a sentence or paragraph: ")
+
+    # Clean and validate the input
+    cleaned_input = clean_input(user_input)
+    if cleaned_input is None:
+        print("\nError: You entered an empty input. Please enter some text.")
+        return  # Exit the program if input is invalid
+
+    # Count words using the count_words function
+    word_count = count_words(cleaned_input)
+
+    # Display the word count result
+    print(f"\nWord Count: {word_count}")
+    
+    # Optional: Display the words and the frequency of each word
+    print("\nDetailed Word Frequency Count:")
+    word_list = re.findall(r'\b\w+\b', cleaned_input.lower())  # Convert to lowercase to make it case-insensitive
+    word_frequency = {word: word_list.count(word) for word in set(word_list)}
+    
+    # Sort the word frequency dictionary by word
+    sorted_word_frequency = dict(sorted(word_frequency.items()))
+
+    for word, freq in sorted_word_frequency.items():
+        print(f"{word}: {freq}")
+
+    print("\nThank you for using the Word Counter Program!")
+
+# Entry point of the program
+if __name__ == "__main__":
+    main()
